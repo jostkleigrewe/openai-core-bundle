@@ -47,6 +47,6 @@ class JostkleigreweOpenAiCoreExtension extends Extension implements ExtensionInt
      */
     public function getAlias(): string
     {
-        return 'jostkleigrewe_openai_core';
+        return 'jostkleigrewe_open_ai_core';
     }
 }
