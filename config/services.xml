@@ -12,9 +12,9 @@
     <!-- services -->
     <services>
 
-        <!-- AlexaRequestService -->
-<!--        <service id="Jostkleigrewe\AlexaCoreBundle\Service\AlexaRequestService" class="Jostkleigrewe\AlexaCoreBundle\Service\AlexaRequestService"  public="true" autowire="true">-->
-<!--        </service>-->
+        <!-- OpenAiService -->
+        <service id="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiService" class="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiService"  public="true" autowire="true">
+        </service>
 
     </services>
 </container>
