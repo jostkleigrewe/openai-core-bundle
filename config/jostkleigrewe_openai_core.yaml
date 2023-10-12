@@ -1,0 +1,3 @@
+jostkleigrewe_openai_core:
+    apikey: '%env(OPENAI_APIKEY)%'
+
