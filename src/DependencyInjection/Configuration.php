@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('jostkleigrewe_openai_core');
+        $treeBuilder = new TreeBuilder('jostkleigrewe_open_ai_core');
 
         $treeBuilder->getRootNode()
             ->children()
