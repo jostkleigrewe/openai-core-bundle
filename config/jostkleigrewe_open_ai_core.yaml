@@ -1,3 +1,2 @@
 jostkleigrewe_open_ai_core:
-    apikey: '%env(OPENAI_APIKEY)%'
-
+    apikey: '%env(resolve:OPENAI_APIKEY)%'

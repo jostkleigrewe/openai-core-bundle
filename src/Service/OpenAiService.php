@@ -6,8 +6,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OpenAiService
 {
-
-
     public function __construct(
         private readonly string $apikey,
         private readonly HttpClientInterface $httpClient
@@ -16,42 +14,40 @@ class OpenAiService
     public function sendMessage(string $message): array
     {
 
-
-
         $response = $this->httpClient->request(
             'POST',
             'https://api.openai.com/v1/chat/completions',
             [
                 'headers' => [
-                    'Authorization' => 'Bearer'.$this->apikey,
+                    'Authorization' => 'Bearer '.$this->apikey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
-                     "model" => "gpt-4",
-                     "messages" => [
-                         [
-                             "role"=> "user",
-                             "content"=> "Sag, dies ist ein Test!"
-                         ]
-                     ],
-                     "temperature" => 0.7,
-                     "max_tokens" => 256,
+                    "model" => "gpt-4",
+                    "messages" => [
+                        [
+                            "role"=> "user",
+                            "content"=> $message
+                        ]
+                    ],
+                    "temperature" => 0.7,
+                    "max_tokens" => 256,
 //                    top_p=1,
 //                    frequency_penalty=0,
 //                    presence_penalty=0
                 ],
             ]
         );
-        dump($this->apikey);
-        dump($response);
-        dump($response->getContent());
+//            dump($this->apikey);
+//            dump($response);
+//            dump($response->getContent());
+//die;
 
         return $response->toArray();
+
+
+
     }
 
-    private function getParameters()
-    {
-        $this->container->getParameter('my_bundle.parameter2');
-    }
 
 }
