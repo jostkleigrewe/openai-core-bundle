@@ -24,9 +24,17 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
-                ->scalarNode('apikey')->defaultValue('default_foo')->end()
-                ->scalarNode('organization')->defaultValue('default_bar')->end()
-            ->end();
+                ->scalarNode('apikey')
+                    ->isRequired()
+                    ->info('OpenAI API Key')
+                ->end()
+                ->scalarNode('organization')
+                    ->defaultValue('default_organization')
+                    ->info('OpenAI API Organization ID')
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

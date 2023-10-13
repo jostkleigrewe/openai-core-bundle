@@ -9,17 +9,21 @@ class OpenAiService
 
 
     public function __construct(
+        private readonly string $apikey,
         private readonly HttpClientInterface $httpClient
     ) {}
 
     public function sendMessage(string $message): array
     {
+
+
+
         $response = $this->httpClient->request(
             'POST',
             'https://api.openai.com/v1/chat/completions',
             [
                 'headers' => [
-                    'Authorization' => 'Bearer 1234567890',
+                    'Authorization' => 'Bearer'.$this->apikey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
@@ -38,11 +42,16 @@ class OpenAiService
                 ],
             ]
         );
-
+        dump($this->apikey);
         dump($response);
         dump($response->getContent());
 
         return $response->toArray();
+    }
+
+    private function getParameters()
+    {
+        $this->container->getParameter('my_bundle.parameter2');
     }
 
 }
