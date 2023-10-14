@@ -8,19 +8,19 @@ class OpenAiService
 {
     public function __construct(
         private readonly string $apikey,
-        private readonly HttpClientInterface $httpClient
+        private readonly HttpClientInterface $openAiClient
     ) {}
 
     public function sendMessage(string $message): array
     {
 
-        $response = $this->httpClient->request(
+        $response = $this->openAiClient->request(
             'POST',
-            'https://api.openai.com/v1/chat/completions',
+            '/v1/chat/completions',
             [
                 'headers' => [
-                    'Authorization' => 'Bearer '.$this->apikey,
-                    'Content-Type' => 'application/json',
+//                    'Authorization' => 'Bearer '.$this->apikey,
+//                    'Content-Type' => 'application/json',
                 ],
                 'json' => [
                     "model" => "gpt-4",
@@ -44,9 +44,6 @@ class OpenAiService
 //die;
 
         return $response->toArray();
-
-
-
     }
 
 
