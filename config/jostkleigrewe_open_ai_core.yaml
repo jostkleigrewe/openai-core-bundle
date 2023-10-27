@@ -2,6 +2,8 @@ jostkleigrewe_open_ai_core:
     apikey: '%env(resolve:OPENAI_APIKEY)%'
 
 framework:
+
+  # https://symfony.com/doc/current/http_client.html
   http_client:
     scoped_clients:
       open_ai_client:
