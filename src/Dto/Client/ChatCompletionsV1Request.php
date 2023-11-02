@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client;
+use Symfony\Component\Serializer\Annotation;
 
 
 /**

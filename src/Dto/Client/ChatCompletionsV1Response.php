@@ -6,6 +6,7 @@ namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client;
 
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\Choice;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\Usage;
+use Symfony\Component\Serializer\Annotation;
 
 /**
  * Class ChatCompletionsV1

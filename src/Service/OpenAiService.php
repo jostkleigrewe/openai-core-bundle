@@ -3,13 +3,16 @@
 namespace Jostkleigrewe\OpenAiCoreBundle\Service;
 
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Request;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OpenAiService
 {
     public function __construct(
         private readonly string $apikey,
-        private readonly HttpClientInterface $openAiClient
+        private readonly HttpClientInterface $openAiClient,
+        private readonly SerializerInterface $serializer
     ) {}
 
 
@@ -18,7 +21,14 @@ class OpenAiService
     ): array
     {
 
-
+        $requestJSON = $this->serializer->serialize(
+            $requestDTO,
+            'json',
+            [
+                AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+//                'json_encode_options' => JSON_PRETTY_PRINT,
+            ]
+        );
 
 
         $response = $this->openAiClient->request(
@@ -29,7 +39,7 @@ class OpenAiService
 ////                    'Authorization' => 'Bearer '.$this->apikey,
 ////                    'Content-Type' => 'application/json',
                 ],
-                'json' => $requestDTO
+                'json' => $requestJSON
 
 //                'json' => [
 //                    "model" => "gpt-4",

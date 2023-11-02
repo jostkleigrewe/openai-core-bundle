@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core;
+
+use Symfony\Component\Serializer\Annotation;
 
 /**
  * @link https://platform.openai.com/docs/api-reference/completions/object
