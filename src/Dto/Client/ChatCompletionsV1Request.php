@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation;
  */
 class ChatCompletionsV1Request
 {
-    public const URL = 'v1/chat/completions';
+    public const URL = '/v1/chat/completions';
 
     public const MODEL_GPT_4 = 'gpt-4';
     public const MODEL_GPT_3 = 'gpt-3.5-turbo';

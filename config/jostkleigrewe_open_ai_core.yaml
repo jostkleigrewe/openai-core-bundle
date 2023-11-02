@@ -7,7 +7,7 @@ framework:
   http_client:
     scoped_clients:
       open_ai_client:
-        base_uri: 'https://api.openai.com/v1/'
+        base_uri: 'https://api.openai.com'
         headers:
           Authorization: 'Bearer %env(resolve:OPENAI_APIKEY)%'
           Content-Type: 'application/json'
