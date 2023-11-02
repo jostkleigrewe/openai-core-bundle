@@ -3,6 +3,7 @@
 namespace Jostkleigrewe\OpenAiCoreBundle\Service;
 
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Request;
+use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Request;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -14,6 +15,41 @@ class OpenAiService
         private readonly HttpClientInterface $openAiClient,
         private readonly SerializerInterface $serializer
     ) {}
+
+
+    public function sendCompletionsV1Request(
+        CompletionsV1Request $requestDTO
+    ): array
+    {
+
+        $requestJSON = $this->serializer->serialize(
+            $requestDTO,
+            'json',
+            [
+                AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+//                'json_encode_options' => JSON_PRETTY_PRINT,
+            ]
+        );
+
+
+        $response = $this->openAiClient->request(
+            'POST',
+            CompletionsV1Request::URL,
+            [
+                'headers' => [
+////                    'Authorization' => 'Bearer '.$this->apikey,
+////                    'Content-Type' => 'application/json',
+                ],
+                'json' => $requestJSON
+            ]
+        );
+
+
+        dump(__METHOD__);
+        dump($response);die;
+
+        return $response->toArray();
+    }
 
 
     public function sendChatCompletions(
@@ -33,7 +69,7 @@ class OpenAiService
 
         $response = $this->openAiClient->request(
             'POST',
-            '/v1/chat/completions',
+            CompletionsV1Request::URL,
             [
                 'headers' => [
 ////                    'Authorization' => 'Bearer '.$this->apikey,

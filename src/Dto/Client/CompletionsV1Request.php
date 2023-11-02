@@ -3,33 +3,20 @@
 declare(strict_types=1);
 
 namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client;
-use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\Message;
 use Symfony\Component\Serializer\Annotation;
 
 
 /**
- * Creates a model response for the given chat conversation.
+ * Creates a completion for the provided prompt and parameters.
  *
- * @link https://platform.openai.com/docs/api-reference/chat/create
+ * @link https://platform.openai.com/docs/api-reference/completions/create
  */
-class ChatCompletionsV1Request
+class CompletionsV1Request
 {
-    public const URL = 'v1/chat/completions';
+    public const URL = 'v1/completions';
 
     public const MODEL_GPT_4 = 'gpt-4';
     public const MODEL_GPT_3 = 'gpt-3.5-turbo';
-
-    public const FUNCTION_CALL_NONE = 'none';
-    public const FUNCTION_CALL_AUTO = 'auto';
-
-
-    /**
-     * A list of messages comprising the conversation so far.
-     *
-     * @var Message[] $messages
-     * @Annotation\SerializedName("messages")
-     */
-    public array $messages;
 
     /**
      * ID of the model to use for completion.
@@ -40,43 +27,6 @@ class ChatCompletionsV1Request
      * @link https://platform.openai.com/docs/models/overview
      */
     public string $model;
-
-    /**
-     * Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency
-     * in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
-     * Defaults to 0
-     *
-     * @var float|null $frequency_penalty
-     * @Annotation\SerializedName("frequency_penalty")
-     *
-     * @link https://platform.openai.com/docs/guides/gpt/parameter-details#frequency-penalty
-     */
-    public ?float $frequency_penalty = null;
-
-    /**
-     * Controls how the model calls functions. "none" means the model will not call a function
-     * and instead generates a message. "auto" means the model can pick between generating a
-     * message or calling a function. Specifying a particular function via
-     * {"name": "my_function"} forces the model to call that function. "none" is the default
-     * when no functions are present. "auto" is the default if functions are present.
-     *
-     * @var ?string $function_call
-     * @Annotation\SerializedName("function_call")
-     */
-    public string $function_call;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * The prompt text to be completed.
@@ -108,7 +58,16 @@ class ChatCompletionsV1Request
      */
     public ?bool $echo = null;
 
-
+    /**
+     * Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency
+     * in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+     *
+     * @var float|null $frequency_penalty
+     * @Annotation\SerializedName("frequency_penalty")
+     *
+     * @link https://platform.openai.com/docs/guides/gpt/parameter-details#frequency-penalty
+     */
+    public ?float $frequency_penalty = null;
 
     /**
      * Modify the likelihood of specified tokens appearing in the completion.
