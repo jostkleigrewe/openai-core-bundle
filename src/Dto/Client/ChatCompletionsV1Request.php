@@ -170,8 +170,8 @@ class ChatCompletionsV1Request
 
      */
     public function __construct(
+        string $model,
         array $messages,
-        string $model
     )
     {
         $this->messages = $messages;
