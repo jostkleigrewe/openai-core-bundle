@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client;
+use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\FunctionItem;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\Message;
 use Symfony\Component\Serializer\Annotation;
 
@@ -62,52 +63,15 @@ class ChatCompletionsV1Request
      * @var ?string $function_call
      * @Annotation\SerializedName("function_call")
      */
-    public string $function_call;
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public ?string $function_call;
 
     /**
-     * The prompt text to be completed.
-     * encoded as a string, array of strings, array of tokens, or array of token arrays.
+     * A list of functions the model may generate JSON inputs for.
      *
-     * @var string[]|string $prompt
-     * @Annotation\SerializedName("prompt")
+     * @var FunctionItem[]|null $functions
+     * @Annotation\SerializedName("functions")
      */
-    public array|string $prompt;
-
-    /**
-     * Generates best_of completions server-side and returns the "best" (the one with the
-     * highest log probability per token). When used with n, best_of controls the number
-     * of candidate completions and n specifies how many to return – best_of must be greater than n.
-     *
-     * Note: Because this parameter generates many completions, it can quickly consume your token quota.
-     * Use carefully and ensure that you have reasonable settings for max_tokens and stop.
-     *
-     * @var int|null $best_of
-     * @Annotation\SerializedName("best_of")
-     */
-    public ?int $best_of = null;
-
-    /**
-     * Echo back the prompt in addition to the completion
-     *
-     * @var bool|null $echo
-     * @Annotation\SerializedName("echo")
-     */
-    public ?bool $echo = null;
-
-
+    public ?array $functions;
 
     /**
      * Modify the likelihood of specified tokens appearing in the completion.
@@ -118,21 +82,8 @@ class ChatCompletionsV1Request
     public ?array $logit_bias = null;
 
     /**
-     * Include the log probabilities on the logprobs most likely tokens, as well the chosen
-     * tokens. For example, if logprobs is 5, the API will return a list of the 5 most likely
-     * tokens. The API will always return the logprob of the sampled token, so there may be
-     * up to logprobs+1 elements in the response.
-     *
-     * The maximum value for logprobs is 5.
-     *
-     * @var int|null $logprobs
-     * @Annotation\SerializedName("logprobs")
-     */
-    public ?int $logprobs = null;
-
-    /**
      * The maximum number of tokens to generate in the completion.
-     * Defaults to 16
+     * Defaults to infinitiv
      *
      * @var int|null $max_tokens
      * @Annotation\SerializedName("max_tokens")
@@ -140,7 +91,7 @@ class ChatCompletionsV1Request
     public ?int $max_tokens = null;
 
     /**
-     * How many completions to generate for each prompt.
+     * How many chat completion choices to generate for each input message.
      * Defaults to 1
      *
      * @var int|null $n
@@ -161,8 +112,7 @@ class ChatCompletionsV1Request
     public ?float $presence_penalty = null;
 
     /**
-     * Up to 4 sequences where the API will stop generating further tokens.
-     * The returned text will not contain the stop sequence.
+     * Up to 4 sequences where the API will stop generating further tokens,
      *
      * @var array<string>|null $stop
      * @Annotation\SerializedName("stop")
@@ -170,22 +120,14 @@ class ChatCompletionsV1Request
     public ?array $stop = null;
 
     /**
-     * Whether to stream back partial progress. If set, tokens will be sent as data-only
-     * server-sent events as they become available, with the stream terminated by a
-     * data: [DONE] message.
+     * If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as
+     * data-only server-sent events as they become available, with the stream terminated by
+     * a data: [DONE] message. Defaults to false
      *
      * @var bool|null $stream
      * @Annotation\SerializedName("stream")
      */
     public ?bool $stream = null;
-
-    /**
-     * The suffix that comes after a completion of inserted text.
-     *
-     * @var string|null $suffix
-     * @Annotation\SerializedName("suffix")
-     */
-    public ?string $suffix = null;
 
     /**
      * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make
@@ -222,10 +164,29 @@ class ChatCompletionsV1Request
      */
     public ?string $user = null;
 
-    public function __construct(string $model, array|string $prompt)
+    /**
+     * @param Message[] $messages
+     * @param string $model
+
+     */
+    public function __construct(
+        array $messages,
+        string $model
+    )
     {
+        $this->messages = $messages;
         $this->model = $model;
-        $this->prompt = $prompt;
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
+    public function setMessages(array $messages): ChatCompletionsV1Request
+    {
+        $this->messages = $messages;
+        return $this;
     }
 
     public function getModel(): string
@@ -233,42 +194,9 @@ class ChatCompletionsV1Request
         return $this->model;
     }
 
-    public function setModel(string $model): static
+    public function setModel(string $model): ChatCompletionsV1Request
     {
         $this->model = $model;
-        return $this;
-    }
-
-    public function getPrompt(): array|string
-    {
-        return $this->prompt;
-    }
-
-    public function setPrompt(array|string $prompt): static
-    {
-        $this->prompt = $prompt;
-        return $this;
-    }
-
-    public function getBestOf(): ?int
-    {
-        return $this->best_of;
-    }
-
-    public function setBestOf(?int $best_of): static
-    {
-        $this->best_of = $best_of;
-        return $this;
-    }
-
-    public function getEcho(): ?bool
-    {
-        return $this->echo;
-    }
-
-    public function setEcho(?bool $echo): static
-    {
-        $this->echo = $echo;
         return $this;
     }
 
@@ -277,9 +205,31 @@ class ChatCompletionsV1Request
         return $this->frequency_penalty;
     }
 
-    public function setFrequencyPenalty(?float $frequency_penalty): static
+    public function setFrequencyPenalty(?float $frequency_penalty): ChatCompletionsV1Request
     {
         $this->frequency_penalty = $frequency_penalty;
+        return $this;
+    }
+
+    public function getFunctionCall(): string
+    {
+        return $this->function_call;
+    }
+
+    public function setFunctionCall(string $function_call): ChatCompletionsV1Request
+    {
+        $this->function_call = $function_call;
+        return $this;
+    }
+
+    public function getFunctions(): ?array
+    {
+        return $this->functions;
+    }
+
+    public function setFunctions(?array $functions): ChatCompletionsV1Request
+    {
+        $this->functions = $functions;
         return $this;
     }
 
@@ -288,20 +238,9 @@ class ChatCompletionsV1Request
         return $this->logit_bias;
     }
 
-    public function setLogitBias(?array $logit_bias): static
+    public function setLogitBias(?array $logit_bias): ChatCompletionsV1Request
     {
         $this->logit_bias = $logit_bias;
-        return $this;
-    }
-
-    public function getLogprobs(): ?int
-    {
-        return $this->logprobs;
-    }
-
-    public function setLogprobs(?int $logprobs): static
-    {
-        $this->logprobs = $logprobs;
         return $this;
     }
 
@@ -310,7 +249,7 @@ class ChatCompletionsV1Request
         return $this->max_tokens;
     }
 
-    public function setMaxTokens(?int $max_tokens): static
+    public function setMaxTokens(?int $max_tokens): ChatCompletionsV1Request
     {
         $this->max_tokens = $max_tokens;
         return $this;
@@ -321,7 +260,7 @@ class ChatCompletionsV1Request
         return $this->n;
     }
 
-    public function setN(?int $n): static
+    public function setN(?int $n): ChatCompletionsV1Request
     {
         $this->n = $n;
         return $this;
@@ -332,7 +271,7 @@ class ChatCompletionsV1Request
         return $this->presence_penalty;
     }
 
-    public function setPresencePenalty(?float $presence_penalty): static
+    public function setPresencePenalty(?float $presence_penalty): ChatCompletionsV1Request
     {
         $this->presence_penalty = $presence_penalty;
         return $this;
@@ -343,7 +282,7 @@ class ChatCompletionsV1Request
         return $this->stop;
     }
 
-    public function setStop(?array $stop): static
+    public function setStop(?array $stop): ChatCompletionsV1Request
     {
         $this->stop = $stop;
         return $this;
@@ -354,20 +293,9 @@ class ChatCompletionsV1Request
         return $this->stream;
     }
 
-    public function setStream(?bool $stream): static
+    public function setStream(?bool $stream): ChatCompletionsV1Request
     {
         $this->stream = $stream;
-        return $this;
-    }
-
-    public function getSuffix(): ?string
-    {
-        return $this->suffix;
-    }
-
-    public function setSuffix(?string $suffix): static
-    {
-        $this->suffix = $suffix;
         return $this;
     }
 
@@ -376,7 +304,7 @@ class ChatCompletionsV1Request
         return $this->temperature;
     }
 
-    public function setTemperature(?float $temperature): static
+    public function setTemperature(?float $temperature): ChatCompletionsV1Request
     {
         $this->temperature = $temperature;
         return $this;
@@ -387,7 +315,7 @@ class ChatCompletionsV1Request
         return $this->top_p;
     }
 
-    public function setTopP(?float $top_p): static
+    public function setTopP(?float $top_p): ChatCompletionsV1Request
     {
         $this->top_p = $top_p;
         return $this;
@@ -398,9 +326,10 @@ class ChatCompletionsV1Request
         return $this->user;
     }
 
-    public function setUser(?string $user): static
+    public function setUser(?string $user): ChatCompletionsV1Request
     {
         $this->user = $user;
         return $this;
     }
+
 }
