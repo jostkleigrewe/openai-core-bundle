@@ -17,5 +17,13 @@
             <argument key="$apikey" type="string">%jostkleigrewe_open_ai_core.apikey%</argument>
         </service>
 
+        <!-- OpenAiSerializer -->
+        <service id="Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer" class="Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer"  public="true" autowire="true">
+        </service>
+
+
+
+
+
     </services>
 </container>

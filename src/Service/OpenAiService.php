@@ -6,6 +6,7 @@ use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Response;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Response;
+use Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -15,7 +16,9 @@ class OpenAiService
     public function __construct(
         private readonly string $apikey,
         private readonly HttpClientInterface $openAiClient,
-        private readonly SerializerInterface $serializer
+//        private readonly SerializerInterface $serializer,
+        private readonly OpenAiSerializer $serializer,
+
     ) {}
 
 
@@ -172,7 +175,9 @@ class OpenAiService
         return $response->toArray();
     }
 
-
-
+    public function getApikey(): string
+    {
+        return $this->apikey;
+    }
 
 }

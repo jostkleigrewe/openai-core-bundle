@@ -85,10 +85,10 @@ class ChatCompletionsV1Request
      * The maximum number of tokens to generate in the completion.
      * Defaults to infinitiv
      *
-     * @var int|null $max_tokens
+     * @var int|null $maxTokens
      * @Annotation\SerializedName("max_tokens")
      */
-    public ?int $max_tokens = null;
+    public ?int $maxTokens = null;
 
     /**
      * How many chat completion choices to generate for each input message.
@@ -170,8 +170,8 @@ class ChatCompletionsV1Request
 
      */
     public function __construct(
-        string $model,
-        array $messages,
+        string  $model,
+        array   $messages,
     )
     {
         $this->messages = $messages;
