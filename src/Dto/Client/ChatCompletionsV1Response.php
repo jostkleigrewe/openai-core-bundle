@@ -24,7 +24,7 @@ class ChatCompletionsV1Response
      * @var string $id
      * @Annotation\SerializedName("id")
      */
-    private string $id;
+    public string $id;
 
     /**
      * The list of completion choices the model generated for the input prompt.
@@ -32,7 +32,7 @@ class ChatCompletionsV1Response
      * @var Choice[] $choices
      * @Annotation\SerializedName("choices")
      */
-    private array $choices;
+    public array $choices;
 
     /**
      * The Unix timestamp (in seconds) of when the completion was created.
@@ -40,7 +40,7 @@ class ChatCompletionsV1Response
      * @var int $created
      * @Annotation\SerializedName("created")
      */
-    private int $created;
+    public int $created;
 
     /**
      * The model used for completion.
@@ -48,7 +48,7 @@ class ChatCompletionsV1Response
      * @var string $model
      * @Annotation\SerializedName("model")
      */
-    private string $model;
+    public string $model;
 
     /**
      * The object type, which is always "text_completion"
@@ -56,7 +56,7 @@ class ChatCompletionsV1Response
      * @var string $object
      * @Annotation\SerializedName("object")
      */
-    private string $object;
+    public string $object;
 
     /**
      * Usage statistics for the completion request.
@@ -64,6 +64,6 @@ class ChatCompletionsV1Response
      * @var Usage $usage
      * @Annotation\SerializedName("usage")
      */
-    private Usage $usage;
+    public Usage $usage;
 
  }
