@@ -71,6 +71,7 @@ class OpenAiService
 
         //  settings
         $requestDTO->setTemperature(0.5);
+        $requestDTO->setMaxTokens(30);
 
         //  serialize request
         $requestJSON = $this->serializer->serialize(
@@ -80,9 +81,6 @@ class OpenAiService
                 AbstractObjectNormalizer::SKIP_NULL_VALUES => true
             ]
         );
-
-        dump($requestDTO);
-        dump($requestJSON);
 
         //  send request
         $response = $this->openAiClient->request(
@@ -100,8 +98,19 @@ class OpenAiService
             'json'
         );
 
-        dump($response);
-        dump($requestJSON);
+//        dump($response);
+        dump($response->getContent());
+        dump($responseDto);
+
+        $responseJSON = $this->serializer->serialize(
+            $responseDto,
+            'json',
+            [
+                AbstractObjectNormalizer::SKIP_NULL_VALUES => true
+            ]
+        );
+
+        dump($responseJSON);
         die;
 
         $response = $this->openAiClient->request(

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core;
+
 use Symfony\Component\Serializer\Annotation;
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\Serializer\Annotation;
  *
  * @link https://platform.openai.com/docs/api-reference/completions/object#completions/object-usage
  */
-readonly class Usage
+class Usage
 {
     /**
      * Number of tokens in the generated completion.
@@ -37,4 +38,40 @@ readonly class Usage
      * @Annotation\SerializedName("total_tokens")
      */
     private int $total_tokens;
+
+
+
+    public function getCompletionTokens(): int
+    {
+        return $this->completion_tokens;
+    }
+
+    public function setCompletionTokens(int $completion_tokens): Usage
+    {
+        $this->completion_tokens = $completion_tokens;
+        return $this;
+    }
+
+    public function getPromptTokens(): int
+    {
+        return $this->prompt_tokens;
+    }
+
+    public function setPromptTokens(int $prompt_tokens): Usage
+    {
+        $this->prompt_tokens = $prompt_tokens;
+        return $this;
+    }
+
+    public function getTotalTokens(): int
+    {
+        return $this->total_tokens;
+    }
+
+    public function setTotalTokens(int $total_tokens): Usage
+    {
+        $this->total_tokens = $total_tokens;
+        return $this;
+    }
+
 }
