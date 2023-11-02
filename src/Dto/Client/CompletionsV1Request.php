@@ -16,7 +16,15 @@ class CompletionsV1Request
     public const URL = '/v1/completions';
 
     public const MODEL_GPT_4 = 'gpt-4';
-    public const MODEL_GPT_3 = 'gpt-3.5-turbo';
+
+    //  Das leistungsstärkste Modell von GPT-3.
+    public const MODEL_DAVINCI = 'davinci';
+
+    //  Ein mittelgroßes Modell.
+    public const MODEL_CURIE = 'curie';
+
+    //   Ein kleineres Modell.
+    public const MODEL_BABBAGE = 'babbage';
 
     /**
      * ID of the model to use for completion.

@@ -22,7 +22,6 @@ class ChatCompletionsV1Request
     public const FUNCTION_CALL_NONE = 'none';
     public const FUNCTION_CALL_AUTO = 'auto';
 
-
     /**
      * A list of messages comprising the conversation so far.
      *
