@@ -85,10 +85,10 @@ class ChatCompletionsV1Request
      * The maximum number of tokens to generate in the completion.
      * Defaults to infinitiv
      *
-     * @var int|null $maxTokens
+     * @var int|null $max_tokens
      * @Annotation\SerializedName("max_tokens")
      */
-    public ?int $maxTokens = null;
+    public ?int $max_tokens = null;
 
     /**
      * How many chat completion choices to generate for each input message.

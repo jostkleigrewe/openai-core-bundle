@@ -81,12 +81,15 @@ class OpenAiService
             ]
         );
 
+        dump($requestDTO);
+        dump($requestJSON);
+
         //  send request
         $response = $this->openAiClient->request(
             'POST',
             ChatCompletionsV1Request::URL,
             [
-                'json' => $requestJSON
+                'body' => $requestJSON
             ]
         );
 
@@ -97,7 +100,8 @@ class OpenAiService
             'json'
         );
 
-        dump($responseDto);
+        dump($response);
+        dump($requestJSON);
         die;
 
         $response = $this->openAiClient->request(
