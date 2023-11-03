@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation;
  *
  * @link https://platform.openai.com/docs/api-reference/completions/object
  */
-class CompletionsV1Response
+readonly class CompletionsV1Response
 {
     /**
      * A unique identifier for the completion.
@@ -24,7 +24,7 @@ class CompletionsV1Response
      * @var string $id
      * @Annotation\SerializedName("id")
      */
-    public string $id;
+    public readonly string $id;
 
     /**
      * The list of completion choices the model generated for the input prompt.
@@ -32,7 +32,7 @@ class CompletionsV1Response
      * @var Choice[] $choices
      * @Annotation\SerializedName("choices")
      */
-    public array $choices;
+    public readonly array $choices;
 
     /**
      * The Unix timestamp (in seconds) of when the completion was created.
@@ -40,7 +40,7 @@ class CompletionsV1Response
      * @var int $created
      * @Annotation\SerializedName("created")
      */
-    public int $created;
+    public readonly int $created;
 
     /**
      * The model used for completion.
@@ -48,7 +48,7 @@ class CompletionsV1Response
      * @var string $model
      * @Annotation\SerializedName("model")
      */
-    public string $model;
+    public readonly string $model;
 
     /**
      * The object type, which is always "text_completion"
@@ -56,7 +56,7 @@ class CompletionsV1Response
      * @var string $object
      * @Annotation\SerializedName("object")
      */
-    public string $object;
+    public readonly string $object;
 
     /**
      * Usage statistics for the completion request.
@@ -64,6 +64,8 @@ class CompletionsV1Response
      * @var Usage $usage
      * @Annotation\SerializedName("usage")
      */
-    public Usage $usage;
+    public readonly Usage $usage;
 
- }
+
+
+}

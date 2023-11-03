@@ -91,9 +91,12 @@ class OpenAiService
             ]
         );
 
+        $content = $response->getContent();
+        dump($content);
+
         //  deserialize response
         $responseDto = $this->serializer->deserialize(
-            $response->getContent(),
+            $content,
             ChatCompletionsV1Response::class,
             'json'
         );
@@ -101,7 +104,7 @@ class OpenAiService
 //        dump($response);
         dump($response->getContent());
         dump($responseDto);
-
+die;
         $responseJSON = $this->serializer->serialize(
             $responseDto,
             'json',

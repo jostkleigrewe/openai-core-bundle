@@ -39,5 +39,51 @@ class Usage
      */
     public int $total_tokens;
 
+    /**
+     * @param int $completion_tokens
+     * @param int $prompt_tokens
+     * @param int $total_tokens
+     */
+    public function __construct(int $completion_tokens, int $prompt_tokens, int $total_tokens)
+    {
+        $this->completion_tokens = $completion_tokens;
+        $this->prompt_tokens = $prompt_tokens;
+        $this->total_tokens = $total_tokens;
+    }
+
+
+    public function getCompletionTokens(): int
+    {
+        return $this->completion_tokens;
+    }
+
+    public function setCompletionTokens(int $completion_tokens): Usage
+    {
+        $this->completion_tokens = $completion_tokens;
+        return $this;
+    }
+
+    public function getPromptTokens(): int
+    {
+        return $this->prompt_tokens;
+    }
+
+    public function setPromptTokens(int $prompt_tokens): Usage
+    {
+        $this->prompt_tokens = $prompt_tokens;
+        return $this;
+    }
+
+    public function getTotalTokens(): int
+    {
+        return $this->total_tokens;
+    }
+
+    public function setTotalTokens(int $total_tokens): Usage
+    {
+        $this->total_tokens = $total_tokens;
+        return $this;
+    }
+
 
 }
