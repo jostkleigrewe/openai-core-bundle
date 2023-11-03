@@ -6,6 +6,7 @@ use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Response;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Response;
+use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Test\ApiResponse;
 use Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -71,7 +72,7 @@ class OpenAiService
 
         //  settings
         $requestDTO->setTemperature(0.7);
-        $requestDTO->setMaxTokens(256);
+        $requestDTO->setMaxTokens(25);
 
         //  serialize request
         $requestJSON = $this->serializer->serialize(
@@ -90,14 +91,16 @@ class OpenAiService
                 'body' => $requestJSON
             ]
         );
+        echo $response->getContent();
 
         //  deserialize response
         $responseDto = $this->serializer->deserialize(
             $response->getContent(),
             ChatCompletionsV1Response::class,
-            'json'
+            'json',
+            []
         );
-
+        dump($responseDto);die;
         // create json from response
         $responseJSON = $this->serializer->serialize(
             $responseDto,

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Jostkleigrewe\OpenAiCoreBundle\Dto\Client;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\Choice;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Core\Usage;
 use Symfony\Component\Serializer\Annotation;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class ChatCompletionsV1
@@ -16,7 +19,7 @@ use Symfony\Component\Serializer\Annotation;
  *
  * @link https://platform.openai.com/docs/api-reference/completions/object
  */
-readonly class ChatCompletionsV1Response
+class ChatCompletionsV1Response
 {
     /**
      * A unique identifier for the completion.
@@ -29,10 +32,10 @@ readonly class ChatCompletionsV1Response
     /**
      * The list of completion choices the model generated for the input prompt.
      *
-     * @var Choice[] $choices
+     * @var Collection<Choice> $choices
      * @Annotation\SerializedName("choices")
      */
-    public readonly array $choices;
+    public Collection $choices;
 
     /**
      * The Unix timestamp (in seconds) of when the completion was created.
@@ -66,14 +69,6 @@ readonly class ChatCompletionsV1Response
      */
     public readonly Usage $usage;
 
-    /**
-     * @param string $id
-     * @param Choice[] $choices
-     * @param int $created
-     * @param string $model
-     * @param string $object
-     * @param Usage $usage
-     */
     public function __construct(
         string $id,
         array  $choices,
@@ -83,7 +78,7 @@ readonly class ChatCompletionsV1Response
         Usage  $usage)
     {
         $this->id = $id;
-        $this->choices = $choices;
+        $this->choices = new ArrayCollection($choices);
         $this->created = $created;
         $this->model = $model;
         $this->object = $object;
@@ -95,10 +90,23 @@ readonly class ChatCompletionsV1Response
         return $this->id;
     }
 
-    public function getChoices(): array
+    /**
+     * @return Collection<Choice>
+     */
+    public function getChoices(): Collection
     {
         return $this->choices;
     }
+
+//    /**
+//     * @return array|Choice[]
+//     */
+//    public function addChoice(Choice $choice): static
+//    {
+//        $this->choices[] = $choice;
+//        return $this;
+//    }
+
 
     public function getCreated(): int
     {

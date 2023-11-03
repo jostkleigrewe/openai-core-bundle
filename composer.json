@@ -20,6 +20,7 @@
     },
     "require": {
         "php": "^8.2",
+        "doctrine/collections": "2.*",
         "symfony/config": "6.3.*",
         "symfony/framework-bundle": "6.3.*",
         "symfony/http-client": "6.3.*",
