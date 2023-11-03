@@ -70,8 +70,8 @@ class OpenAiService
     {
 
         //  settings
-        $requestDTO->setTemperature(0.5);
-        $requestDTO->setMaxTokens(30);
+        $requestDTO->setTemperature(0.7);
+        $requestDTO->setMaxTokens(256);
 
         //  serialize request
         $requestJSON = $this->serializer->serialize(
@@ -91,20 +91,14 @@ class OpenAiService
             ]
         );
 
-        $content = $response->getContent();
-        dump($content);
-
         //  deserialize response
         $responseDto = $this->serializer->deserialize(
-            $content,
+            $response->getContent(),
             ChatCompletionsV1Response::class,
             'json'
         );
 
-//        dump($response);
-        dump($response->getContent());
-        dump($responseDto);
-die;
+        // create json from response
         $responseJSON = $this->serializer->serialize(
             $responseDto,
             'json',
@@ -113,44 +107,7 @@ die;
             ]
         );
 
-        dump($responseJSON);
-        die;
-
-        $response = $this->openAiClient->request(
-            'POST',
-            CompletionsV1Request::URL,
-            [
-                'headers' => [
-////                    'Authorization' => 'Bearer '.$this->apikey,
-////                    'Content-Type' => 'application/json',
-                ],
-                'json' => $requestJSON
-
-//                'json' => [
-//                    "model" => "gpt-4",
-//                    "messages" => [
-//                        [
-//                            "role"=> "user",
-//                            "content"=> $message
-//                        ]
-//                    ],
-//                    "temperature" => 0.7,
-//                    "max_tokens" => 256,
-////                    top_p=1,
-////                    frequency_penalty=0,
-////                    presence_penalty=0
-//                ],
-            ]
-        );
-//            dump($this->apikey);
-//            dump($response);
-//            dump($response->getContent());
-//die;
-
-        dump($response);
-        die;
-
-        return $response->toArray();
+        return $responseDto;
     }
 
 
