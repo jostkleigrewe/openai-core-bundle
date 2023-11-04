@@ -77,10 +77,10 @@ class ImagesGenerationsV1Request
      */
     public function __construct(
         string $prompt,
-        ?int $n,
-        ?string $response_format,
-        ?string $size,
-        ?string $user)
+        ?int $n = null,
+        ?string $response_format = null,
+        ?string $size = null,
+        ?string $user = null)
     {
         $this->prompt = $prompt;
         $this->n = $n;
