@@ -6,6 +6,8 @@ use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Response;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Response;
+use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ImagesGenerationsV1Request;
+use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ImagesGenerationsV1Response;
 use Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -71,8 +73,8 @@ class OpenAiService
     {
 
         //  settings
-        $requestDTO->setTemperature(0.7);
-        $requestDTO->setMaxTokens(25);
+//        $requestDTO->setTemperature(0.7);
+//        $requestDTO->setMaxTokens(25);
 
         //  serialize request
         $requestJSON = $this->serializerService->serialize($requestDTO);
@@ -99,6 +101,39 @@ class OpenAiService
     }
 
 
+
+    public function sendImagesGenerations(
+        ImagesGenerationsV1Request $requestDTO
+    ): ImagesGenerationsV1Response
+    {
+
+        //  settings
+//        $requestDTO->setTemperature(0.7);
+//        $requestDTO->setMaxTokens(25);
+
+        //  serialize request
+        $requestJSON = $this->serializerService->serialize($requestDTO);
+
+        //  send request
+        $response = $this->openAiClient->request(
+            'POST',
+            $requestDTO::URL,
+            [
+                'body' => $requestJSON
+            ]
+        );
+
+        //  deserialize response
+        $responseDto = $this->serializerService->deserialize(
+            $response->getContent(),
+            ImagesGenerationsV1Response::class);
+        /** @var ImagesGenerationsV1Response $responseDto */
+
+        // create json from response
+        $responseJSON = $this->serializerService->serialize($responseDto);
+
+        return $responseDto;
+    }
 
 
 
