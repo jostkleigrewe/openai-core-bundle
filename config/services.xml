@@ -13,17 +13,17 @@
     <services>
 
         <!-- OpenAiService -->
-        <service id="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiService" class="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiService"  public="true" autowire="true">
+        <service id="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiService" class="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiService" public="true" autowire="true">
             <argument key="$apikey" type="string">%jostkleigrewe_open_ai_core.apikey%</argument>
+        </service>
+
+        <!-- OpenAiSerializerService -->
+        <service id="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiSerializerService" class="Jostkleigrewe\OpenAiCoreBundle\Service\OpenAiSerializerService" public="true" autowire="true">
         </service>
 
         <!-- OpenAiSerializer -->
         <service id="Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer" class="Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer"  public="true" autowire="true">
         </service>
-
-
-
-
 
     </services>
 </container>

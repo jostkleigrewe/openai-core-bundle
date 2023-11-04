@@ -6,24 +6,22 @@ use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\ChatCompletionsV1Response;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Request;
 use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\CompletionsV1Response;
-use Jostkleigrewe\OpenAiCoreBundle\Dto\Client\Test\ApiResponse;
 use Jostkleigrewe\OpenAiCoreBundle\Serializer\OpenAiSerializer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\Exception as HttpClientException;
 
 class OpenAiService
 {
     public function __construct(
-        private readonly string $apikey,
-        private readonly HttpClientInterface $openAiClient,
-//        private readonly SerializerInterface $serializer,
-        private readonly OpenAiSerializer $serializer,
+        private readonly string                  $apikey,
+        private readonly HttpClientInterface     $openAiClient,
+        private readonly OpenAiSerializerService $serializerService,
+    ) {
 
-    ) {}
+    }
 
-
-    public function sendCompletionsV1Request(
+    public function sendCompletions(
         CompletionsV1Request $requestDTO
     ): CompletionsV1Response
     {
@@ -32,13 +30,7 @@ class OpenAiService
         $requestDTO->setTemperature(0.5);
 
         //  serialize request
-        $requestJSON = $this->serializer->serialize(
-            $requestDTO,
-            'json',
-            [
-                AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-            ]
-        );
+        $requestJSON = $this->serializerService->serialize($requestDTO);
 
         //  send request
         $response = $this->openAiClient->request(
@@ -50,21 +42,29 @@ class OpenAiService
         );
 
         //  deserialize response
-        $responseDto = $this->serializer->deserialize(
+        $responseDto = $this->serializerService->deserialize(
             $response->getContent(),
             CompletionsV1Response::class,
             'json'
         );
 
 
-        dump(__METHOD__);
-        dump($responseDto);
-        die;
 
         return $responseDto;
     }
 
 
+    /**
+     * Diese Methode sendet eine ChatCompletionsV1Request an die OpenAi-API
+     * und gibt eine ChatCompletionsV1Response zurück.
+     *
+     * @param ChatCompletionsV1Request $requestDTO
+     * @return ChatCompletionsV1Response
+     * @throws HttpClientException\ClientExceptionInterface
+     * @throws HttpClientException\RedirectionExceptionInterface
+     * @throws HttpClientException\ServerExceptionInterface
+     * @throws HttpClientException\TransportExceptionInterface
+     */
     public function sendChatCompletions(
         ChatCompletionsV1Request $requestDTO
     ): ChatCompletionsV1Response
@@ -75,43 +75,30 @@ class OpenAiService
         $requestDTO->setMaxTokens(25);
 
         //  serialize request
-        $requestJSON = $this->serializer->serialize(
-            $requestDTO,
-            'json',
-            [
-                AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-            ]
-        );
+        $requestJSON = $this->serializerService->serialize($requestDTO);
 
         //  send request
         $response = $this->openAiClient->request(
             'POST',
-            ChatCompletionsV1Request::URL,
+            $requestDTO::URL,
             [
                 'body' => $requestJSON
             ]
         );
-        echo $response->getContent();
 
         //  deserialize response
-        $responseDto = $this->serializer->deserialize(
+        $responseDto = $this->serializerService->deserialize(
             $response->getContent(),
-            ChatCompletionsV1Response::class,
-            'json',
-            []
-        );
-        dump($responseDto);die;
+            ChatCompletionsV1Response::class);
+        /** @var ChatCompletionsV1Response $responseDto */
+
         // create json from response
-        $responseJSON = $this->serializer->serialize(
-            $responseDto,
-            'json',
-            [
-                AbstractObjectNormalizer::SKIP_NULL_VALUES => true
-            ]
-        );
+        $responseJSON = $this->serializerService->serialize($responseDto);
 
         return $responseDto;
     }
+
+
 
 
 
