@@ -68,13 +68,6 @@ class ImagesGenerationsV1Request
      */
     public ?string $user = null;
 
-    /**
-     * @param string      $prompt
-     * @param int|null    $n
-     * @param string|null $response_format
-     * @param string|null $size
-     * @param string|null $user
-     */
     public function __construct(
         string $prompt,
         ?int $n = null,
@@ -94,7 +87,7 @@ class ImagesGenerationsV1Request
         return $this->prompt;
     }
 
-    public function setPrompt(string $prompt): ImagesGenerationsV1Request
+    public function setPrompt(string $prompt): static
     {
         $this->prompt = $prompt;
         return $this;
@@ -105,7 +98,7 @@ class ImagesGenerationsV1Request
         return $this->n;
     }
 
-    public function setN(?int $n): ImagesGenerationsV1Request
+    public function setN(?int $n): static
     {
         $this->n = $n;
         return $this;
@@ -116,7 +109,7 @@ class ImagesGenerationsV1Request
         return $this->response_format;
     }
 
-    public function setResponseFormat(?string $response_format): ImagesGenerationsV1Request
+    public function setResponseFormat(?string $response_format): static
     {
         $this->response_format = $response_format;
         return $this;
@@ -127,7 +120,7 @@ class ImagesGenerationsV1Request
         return $this->size;
     }
 
-    public function setSize(?string $size): ImagesGenerationsV1Request
+    public function setSize(?string $size): static
     {
         $this->size = $size;
         return $this;
@@ -138,7 +131,7 @@ class ImagesGenerationsV1Request
         return $this->user;
     }
 
-    public function setUser(?string $user): ImagesGenerationsV1Request
+    public function setUser(?string $user): static
     {
         $this->user = $user;
         return $this;
